@@ -161,6 +161,7 @@ main.page[lang="ru"] .bio p:nth-child(2) { letter-spacing: -.3px; }
 .sectionHeading { margin-bottom: 12px; }
 .sectionHeading p { margin: 0 0 4px; color: var(--muted); font-size: 14px; font-weight: 500; }
 .sectionHeading h2, .comicsSection > h2 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.03em; }
+.sectionHeading h2 .experienceDate { color: var(--muted); font-size: 14px; font-weight: 500; letter-spacing: normal; }
 .caseSection, .experience, .comicsSection { width: min(var(--column), calc(100% - 40px)); margin: 0 auto; }
 .caseSection { margin-bottom: 115px; }
 .caseIntro { margin: 0 0 64px; width: 95%; color: var(--muted); }

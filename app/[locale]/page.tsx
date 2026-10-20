@@ -85,7 +85,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
     </section>
 
     <section className="caseSection" aria-labelledby="x5-title">
-      <div className="sectionHeading"><p>{content.x5.date}</p><h2 id="x5-title">Х5 Digital</h2></div>
+      <div className="sectionHeading"><h2 id="x5-title"><small className="experienceDate">{content.x5.date}</small><br />Х5 Digital</h2></div>
       <p className="caseIntro">{introBefore}<span className="textAccent">{content.x5.introAccent}</span>{introAfter}</p>
       <div className="achievement"><p><strong>{content.x5.achievements[0][0]}</strong> {content.x5.achievements[0][1]}</p><Gallery locale={locale} start={0} end={8} label={locale === "ru" ? "Экраны товаров и каталога" : "Product and catalogue screens"} /></div>
       <div className="achievement"><p><strong>{content.x5.achievements[1][0]}</strong> {content.x5.achievements[1][1]}</p></div>
@@ -106,7 +106,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
 
     <section className="experience" aria-label={locale === "ru" ? "Другой опыт" : "Other experience"}>
       {content.experience.map((job) => <article className="experienceEntry" key={job.company}>
-        <div className="sectionHeading"><p>{job.date}</p><h2>{job.company}</h2></div>
+        <header className="sectionHeading">
+          <h2><small className="experienceDate">{job.date}</small><br />{job.company}</h2>
+        </header>
         <p>{"text" in job ? job.text : <>{job.textBefore}<a href={job.href} target="_blank" rel="noreferrer">{job.linkText}</a>{job.textAfter}</>}</p>
       </article>)}
     </section>

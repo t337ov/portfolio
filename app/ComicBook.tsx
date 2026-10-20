@@ -27,9 +27,9 @@ export function ComicBook({ title, cover, firstPage, locale, aspectRatio = "832 
         </div>
       </div>
 
-      <div className={styles.cover} aria-hidden="true">
+      <div className={styles.cover}>
         <div className={styles.coverFace}>
-          <Image src={cover} alt="" fill sizes="(max-width: 700px) 42vw, 238px" />
+          <Image src={cover} alt={locale === "ru" ? `Обложка комикса «${title}»` : `Cover of ${title}`} fill sizes="(max-width: 700px) 42vw, 238px" />
           <img className={styles.layerSoftLight} src="/img/comic-layers/spine-soft-light.png" alt="" width={604} height={906} />
           <img className={styles.layerMultiply} src="/img/comic-layers/spine-multiply.png" alt="" width={604} height={906} />
           <img className={styles.layerNormal} src="/img/comic-layers/spine-normal.png" alt="" width={604} height={906} />
