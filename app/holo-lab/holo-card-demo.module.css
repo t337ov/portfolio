@@ -1,0 +1,67 @@
+.lab { min-height: 100vh; padding: 0 28px; color: var(--text); }
+.topbar { width: min(1080px, 100%); min-height: 82px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.backLink, .prototypeLabel { color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: .04em; text-decoration: none; }
+.prototypeLabel { font-size: 10px; letter-spacing: .13em; }
+.demo { width: min(1080px, 100%); margin: clamp(30px, 6vh, 72px) auto 0; }
+.intro { max-width: 650px; margin-bottom: 36px; }
+.eyebrow { margin: 0 0 12px; color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.title { margin: 0; font-size: clamp(32px, 5vw, 48px); font-weight: 550; line-height: 1.08; letter-spacing: -.055em; }
+.description { max-width: 590px; margin: 15px 0 0; color: var(--muted); font-size: 15px; font-weight: 450; line-height: 1.65; letter-spacing: -.018em; }
+.workspace { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(280px, 360px); align-items: center; gap: clamp(32px, 8vw, 100px); }
+.stage { min-height: 590px; display: grid; place-items: center; perspective: 1200px; }
+.card { --pointer-x: 50%; --pointer-y: 50%; --background-x: 50%; --background-y: 50%; --pointer-from-center: 0; --card-opacity: 0; --rotate-x: 0deg; --rotate-y: 0deg; --spot-radius: 43cqw; position: relative; container-type: inline-size; width: clamp(265px, 33vw, 380px); aspect-ratio: 2016 / 2808; overflow: hidden; border-radius: 20px; background: var(--card-background); box-shadow: 0 20px 34px rgb(0 0 0 / 18%), 0 4px 10px rgb(0 0 0 / 12%); transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y)) rotate(-2deg) scale(1); transform-style: preserve-3d; transition: scale 520ms cubic-bezier(.16,1,.3,1), box-shadow 520ms cubic-bezier(.16,1,.3,1); outline: none; cursor: crosshair; touch-action: pan-y; }
+.card[data-active="true"] { scale: 1.035; box-shadow: 0 0 0 transparent; }
+.card:focus-visible { outline: 3px solid var(--cyan); outline-offset: 7px; }
+.artwork { z-index: 0; object-fit: cover; }
+.copy { position: absolute; z-index: 2; inset: 0; color: var(--card-ink); font-family: "Merriweather", serif; font-weight: 400; letter-spacing: 0; pointer-events: none; }
+.copy h2 { position: absolute; top: calc(6.2% - 2px); left: 8%; width: 62%; margin: 0; font-family: "Cinzel", serif; font-size: 19px; font-weight: 800; line-height: 1.2; letter-spacing: -.6px; }
+.role { position: absolute; top: calc(57.5% - 4px); left: 8%; width: 84%; margin: 0; font-size: 20px; font-weight: 800; line-height: 1.2; }
+.bio { position: absolute; top: 65%; left: 9.8%; width: 75%; display: flex; flex-direction: column; gap: 16px; overflow: visible; font-size: 13px; line-height: 1.2; }
+.bio p { margin: 0; letter-spacing: -.5px; text-align: justify; }
+.bio p + p { font-style: italic; }
+.shine, .glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.shine { z-index: 3; overflow: hidden; opacity: calc(var(--card-opacity) * var(--foil-strength)); -webkit-mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); -webkit-mask-size: 100% 100%, 100% 100%; -webkit-mask-repeat: no-repeat, no-repeat; -webkit-mask-composite: source-in; mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); mask-mode: alpha, luminance; mask-size: 100% 100%, 100% 100%; mask-repeat: no-repeat, no-repeat; mask-composite: intersect; background-image: repeating-linear-gradient(-22deg, hsla(283, 49%, 60%, .75) 5%, hsla(2, 74%, 59%, .75) 10%, hsla(53, 67%, 53%, .75) 15%, hsla(93, 56%, 52%, .75) 20%, hsla(176, 38%, 50%, .75) 25%, hsla(228, 100%, 77%, .75) 30%, hsla(283, 49%, 61%, .75) 35%); background-size: 300% 400%; background-position: var(--background-x) var(--background-y); filter: brightness(calc((var(--pointer-from-center) * .3) + .5)) contrast(2.3) saturate(1); mix-blend-mode: color-dodge; }
+.glare { z-index: 4; opacity: calc(var(--card-opacity) * .36); background-image: radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y), rgb(255 255 255 / .75) 0%, rgb(255 255 255 / .36) 36%, rgb(255 255 255 / .16) 74%, rgb(255 255 255 / .08) 100%); mix-blend-mode: screen; }
+.noise { position: absolute; inset: 0; z-index: 5; border-radius: inherit; background-image: url("/img/card-noise.png"); background-repeat: repeat; background-size: 128px 128px; image-rendering: pixelated; opacity: var(--noise-opacity); mix-blend-mode: overlay; pointer-events: none; }
+.controls { width: 100%; align-self: center; padding: 24px; border: 1px solid color-mix(in srgb, var(--line) 75%, transparent); border-radius: 20px; background: color-mix(in srgb, var(--surface) 78%, transparent); box-shadow: 0 16px 45px rgb(0 0 0 / 5%); }
+.controlsHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+.controlsHeader h2 { margin: 0; font-size: 18px; font-weight: 550; letter-spacing: -.03em; }
+.controlsHeader span { padding: 4px 8px; border: 1px solid color-mix(in srgb, var(--cyan) 35%, transparent); border-radius: 999px; color: var(--cyan); font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+.rangeLabel { display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 500; }
+.rangeLabel output { color: var(--muted); font-variant-numeric: tabular-nums; }
+.range { width: 100%; margin: 18px 0 4px; accent-color: var(--cyan); cursor: pointer; }
+.rangeEnds { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; }
+.toggle { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); cursor: pointer; }
+.toggle > span { display: grid; gap: 3px; }
+.toggle strong { font-size: 13px; font-weight: 550; }
+.toggle small { color: var(--muted); font-size: 11px; font-weight: 450; }
+.toggle input { position: absolute; right: 0; width: 42px; height: 24px; opacity: 0; cursor: pointer; }
+.toggle i { position: relative; width: 42px; height: 24px; flex: 0 0 42px; border-radius: 99px; background: color-mix(in srgb, var(--muted) 28%, transparent); transition: background .2s ease; }
+.toggle i::after { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 3px rgb(0 0 0 / 20%); content: ""; transition: transform .2s ease; }
+.toggle input:checked + i { background: var(--cyan); }
+.toggle input:checked + i::after { transform: translateX(18px); }
+.toggle input:focus-visible + i { outline: 2px solid var(--text); outline-offset: 3px; }
+.hint { min-height: 36px; margin: 20px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+.footer { display: flex; justify-content: space-between; gap: 24px; margin: 24px auto 40px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent); color: var(--muted); font-size: 10px; }
+.legend { display: inline-flex; align-items: center; }
+.legend i { width: 18px; height: 2px; margin-right: 8px; background: linear-gradient(90deg, #11e9fa, #e638ff, #f6d638); }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card::before, .card::after, .toggle i, .toggle i::after { transition: none; }
+  .card { transform: rotate(-2deg); }
+  .shine { opacity: calc(.12 * var(--foil-strength)); }
+  .glare { opacity: .12; }
+}
+
+@media (max-width: 760px) {
+  .lab { padding: 0 18px; }
+  .topbar { min-height: 68px; }
+  .demo { margin-top: 28px; }
+  .intro { margin-bottom: 20px; }
+  .workspace { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .stage { min-height: auto; padding: 20px 0 34px; }
+  .card { width: min(76vw, 330px); }
+  .controls { padding: 20px; }
+  .footer { flex-direction: column; gap: 8px; }
+}

@@ -1,0 +1,40 @@
+/* Framer color tokens, in the same order as the source theme declarations. */
+:root {
+  color-scheme: light dark;
+  --page: #f2f2f2;
+  --line: #ccc;
+  --text: #444;
+  --link-text: #444;
+  --muted: #827d7d;
+  --red: #af3029;
+  --orange: #bc5215;
+  --yellow: #ad8301;
+  --green: #66800b;
+  --cyan: #24837b;
+  --blue: #205ea6;
+  --purple: #5e409d;
+  --magenta: #a02f6f;
+  --surface: #fff;
+  --card-ink: #000;
+  --card-background: #171717;
+  --product-background: #f2f2f2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #100f0f;
+    --line: #343331;
+    --text: #cecdc3;
+    --link-text: var(--text);
+    --muted: #878580;
+    --red: #d14d41;
+    --orange: #da702c;
+    --yellow: #d0a215;
+    --green: #879a39;
+    --cyan: #3aa99f;
+    --blue: #4385be;
+    --purple: #8b7ec8;
+    --magenta: #ce5d97;
+    --surface: #1c1b1a;
+  }
+}

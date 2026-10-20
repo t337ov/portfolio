@@ -1,0 +1,80 @@
+.page {
+  min-height: 100svh;
+  padding: 34px max(24px, calc((100vw - 1040px) / 2)) 72px;
+  color: var(--text);
+}
+
+.header { max-width: 760px; margin: 0 auto; }
+.back { display: inline-block; color: var(--muted); font-size: 14px; text-decoration: none; }
+.back:hover { color: var(--text); }
+.kicker { margin: 44px 0 8px; color: var(--orange); font: 700 11px/1.4 system-ui, sans-serif; letter-spacing: .14em; }
+.header h1 { margin: 0; font-size: clamp(30px, 5vw, 48px); line-height: 1.08; letter-spacing: -.045em; }
+.lede { margin: 14px 0 0; color: var(--muted); font-size: 16px; font-weight: 400; }
+
+.demo { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); align-items: center; gap: clamp(30px, 7vw, 84px); max-width: 1040px; margin: 45px auto 0; }
+.stage { position: relative; min-width: 0; min-height: 540px; display: grid; place-items: center; perspective: 1500px; perspective-origin: 50% 48%; }
+.bookWrap { --book-width: clamp(210px, 28vw, 278px); --book-shift: 76px; position: relative; width: var(--book-width); aspect-ratio: 2 / 3; transform: translateX(var(--book-shift)); transform-style: preserve-3d; }
+.pages { position: absolute; inset: 0; transform: scale(1); transform-origin: 0% 50%; transform-style: preserve-3d; transition: transform 560ms cubic-bezier(.2,.72,.24,1); border-radius: 0; }
+.open .pages { transform: scale(1.02); }
+.secondPage { position: absolute; inset: 2px 0 1px 4px; z-index: 0; border-radius: 0; background: #d8d2c6; transform: translateZ(-7px) scale(.985); transition: right var(--second-page-duration) cubic-bezier(.2,.72,.24,1), transform var(--second-page-duration) cubic-bezier(.2,.72,.24,1); }
+.open .secondPage { right: -4px; transform: translateZ(-7px) scale(1); transition-delay: var(--second-page-delay); }
+.insidePage { position: absolute; inset: 1px -1px 0 0; overflow: hidden; padding: 12px 11px 15px; color: #2b2928; background: linear-gradient(90deg, #d0cabc 0, #f5f0e5 5%, #fffdf5 11%, #f4efe3 100%); transform: translateZ(-2px) scale(.985); transform-origin: 0% 50%; transition: transform var(--page-duration) cubic-bezier(.2,.72,.24,1); }
+.open .insidePage { transform: translateZ(-2px) scale(1); }
+.pageHeader { display: flex; justify-content: space-between; margin-bottom: 8px; font: 700 7px/1 system-ui, sans-serif; letter-spacing: .08em; }
+.panelLarge { position: relative; height: 61%; overflow: hidden; border: 3px solid #211e1d; background: #edc52b; }
+.panelLarge :global(img), .panelSmall :global(img), .coverArt :global(img) { object-fit: cover; }
+.panelLarge :global(img) { object-position: 50% 36%; transform: scale(1.55); }
+.panelRow { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; height: 27%; margin-top: 7px; }
+.panelSmall { position: relative; overflow: hidden; border: 3px solid #211e1d; background: #e4ba32; }
+.panelSmall :global(img) { object-position: 8% 74%; transform: scale(2.2); }
+.captionLines { display: flex; flex-direction: column; justify-content: center; gap: 7px; padding: 5px; }
+.captionLines i { height: 3px; background: #37312d; opacity: .78; }
+.captionLines i:nth-child(2), .captionLines i:nth-child(5) { width: 78%; }
+.pageNumber { position: absolute; bottom: 4px; right: 10px; font: 9px/1 Georgia, serif; }
+.coverCastShadow { position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0; background: linear-gradient(to right, rgb(24 19 15 / 72%) 0%, rgb(24 19 15 / 52%) 12%, rgb(24 19 15 / 28%) 32%, rgb(24 19 15 / 10%) 58%, transparent 78%); mix-blend-mode: multiply; filter: blur(8px); transition: opacity var(--flip-duration) ease; }
+.open .coverCastShadow { opacity: 1; }
+
+.cover { position: absolute; inset: 0 -6px 0 0; z-index: 2; display: block; width: auto; height: 100%; padding: 0; overflow: visible; border: 0; border-radius: 1px; background: linear-gradient(135deg, #f0d5a2, #d6b273 55%, #aa7b4f); pointer-events: none; transform-origin: 0% 50%; transform: translateZ(3px) rotateY(0deg); transform-style: preserve-3d; transition: transform var(--flip-duration) cubic-bezier(.2,.72,.24,1), filter var(--flip-duration) ease, box-shadow var(--flip-duration) ease; box-shadow: 7px 10px 25px rgb(0 0 0 / 24%), 1px 1px 2px rgb(0 0 0 / 30%); -webkit-tap-highlight-color: transparent; }
+.coverArt, .coverBack { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; backface-visibility: hidden; }
+.coverArt { background: #151515; }
+.coverArt :global(img) { transition: filter var(--flip-duration) ease; }
+.coverOpenGradient { position: absolute; inset: 0; z-index: 6; border-radius: inherit; pointer-events: none; opacity: 0; background: linear-gradient(to left, rgb(255 255 255 / 24%) 0%, rgb(255 255 255 / 11%) 28%, transparent 72%); transition: opacity var(--flip-duration) ease; }
+.coverShine { position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; border-top: 1px solid rgb(255 255 255 / 38%); box-shadow: inset -3px 0 5px rgb(0 0 0 / 33%), inset 0 -1px 1px rgb(0 0 0 / 35%); }
+.coverSpine { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: inherit; pointer-events: none; opacity: .18; }
+.coverSpine img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.coverSpine img:nth-child(1) { mix-blend-mode: soft-light; }
+.coverSpine img:nth-child(2) { mix-blend-mode: multiply; }
+.coverSpine img:nth-child(3) { mix-blend-mode: normal; }
+.open .cover { transform: translateZ(3px) rotateY(calc(-1 * var(--open-angle))) scale(1.02); box-shadow: 2px 12px 24px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 0%); }
+.open .coverArt :global(img) { filter: brightness(.88) saturate(.92); }
+.open .coverOpenGradient { opacity: 1; }
+.hitArea { position: absolute; inset: 0; z-index: 10; width: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.hitArea:focus-visible { outline: 2px solid var(--orange); outline-offset: 5px; }
+.hint { position: absolute; bottom: 0; left: 0; right: 0; margin: 0; color: var(--muted); text-align: center; font-size: 13px; font-weight: 400; }
+
+.controls { padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--surface) 65%, transparent); }
+.controlHeading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 25px; }
+.controlHeading h2 { margin: 0; font-size: 19px; letter-spacing: -.03em; }
+.reset { padding: 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
+.reset:hover { color: var(--text); }
+.control { display: block; margin: 0 0 25px; }
+.control > span { display: flex; justify-content: space-between; gap: 14px; font-size: 14px; }
+.control output { color: var(--muted); font-variant-numeric: tabular-nums; }
+.control input { display: block; width: 100%; margin: 14px 0 5px; accent-color: var(--orange); }
+.control small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.note { margin: 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 400; line-height: 1.55; }
+
+@media (max-width: 760px) {
+  .page { padding: 24px 20px 52px; }
+  .kicker { margin-top: 34px; }
+  .demo { grid-template-columns: 1fr; gap: 12px; margin-top: 18px; }
+  .stage { min-height: 470px; }
+  .bookWrap { --book-width: min(48vw, 200px); --book-shift: clamp(86px, 22vw, 120px); }
+  .controls { max-width: 520px; width: 100%; margin: 0 auto; }
+  .hint { bottom: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pages, .insidePage, .secondPage, .cover, .coverArt :global(img), .coverCastShadow, .coverOpenGradient { transition-duration: 1ms; }
+  .open .secondPage { transition-delay: 0s; }
+}

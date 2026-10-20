@@ -1,0 +1,356 @@
+@import "./fonts.css";
+@import "./theme.css";
+
+@property --card-rest-rotation {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -3deg;
+}
+
+@property --card-entry-scale {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+html[data-language-transition-freeze="true"] .profileCard {
+  transition: none !important;
+}
+
+html[data-language-transition-freeze="true"] :is(.languageTransitionWord, .languageTransitionOldWord),
+html[data-language-transition-freeze="true"] .languageTransitionWord::after {
+  animation-play-state: paused;
+}
+
+html[data-language-transition-measure="true"] .profileCard {
+  transform: none !important;
+  translate: none !important;
+  rotate: none !important;
+  scale: none !important;
+}
+
+/* Keep raw route text hidden even if React replaces prepared spans. Only
+   animated words may become visible until the transition has completed. */
+html[data-language-pending="true"]:not([data-language-source]) main.page:not(.languageTransitionSnapshot) :is(h2, h3, p, figcaption):not(.comicsSection *),
+html[data-language-pending="true"][data-language-source="en"] main.page[lang="ru"]:not(.languageTransitionSnapshot) :is(h2, h3, p, figcaption):not(.comicsSection *),
+html[data-language-pending="true"][data-language-source="ru"] main.page[lang="en"]:not(.languageTransitionSnapshot) :is(h2, h3, p, figcaption):not(.comicsSection *) {
+  visibility: hidden;
+}
+
+.languageTransitionWord {
+  --language-transition-gradient: linear-gradient(105deg, #e8a1bd 0%, #9a8ae9 36%, #78b9d5 68%, #efb88f 100%);
+  position: relative;
+  visibility: visible;
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: language-copy-in 360ms cubic-bezier(.22, .7, .25, 1) both;
+  animation-delay: calc(var(--line-delay) + 160ms);
+}
+
+.languageTransitionWord::after {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: transparent;
+  background-image: var(--language-transition-gradient);
+  background-size: var(--line-width) 100%;
+  background-position: calc(-1 * var(--word-offset)) 0;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  content: attr(data-transition-word);
+  opacity: 0;
+  pointer-events: none;
+  white-space: pre;
+  animation: language-copy-tint 540ms ease-out both;
+  animation-delay: calc(var(--line-delay) + 160ms);
+}
+
+.languageTransitionSnapshot,
+.languageTransitionSnapshot * {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.languageTransitionSnapshot :is(h1, .contacts, .comicsSection) {
+  visibility: hidden;
+}
+
+.languageTransitionSnapshot .profileCard::before,
+.languageTransitionSnapshot .profileCard::after {
+  display: none;
+}
+
+.languageTransitionOldWord {
+  position: relative;
+  display: inline-block;
+  animation: language-copy-out 160ms cubic-bezier(.22, .7, .25, 1) both;
+  animation-delay: var(--line-delay);
+}
+
+@media (prefers-color-scheme: dark) {
+  .languageTransitionWord {
+    --language-transition-gradient: linear-gradient(105deg, #f2a0bd 0%, #b3a4f2 36%, #87d7e6 68%, #f4b28d 100%);
+  }
+}
+
+@keyframes language-copy-in {
+  0% { opacity: 0; transform: translateY(4px); }
+  68% { opacity: 1; transform: translateY(-1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes language-copy-out {
+  to { opacity: 0; transform: translateY(-3px); }
+}
+
+@keyframes language-copy-tint {
+  0% { opacity: .88; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .languageTransitionWord {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .languageTransitionWord::after { display: none; }
+  .languageTransitionOldWord { animation: none; opacity: 0; transform: none; }
+}
+
+* { box-sizing: border-box; }
+
+:root {
+  --column: 590px;
+}
+
+html { background: var(--page); scroll-behavior: smooth; }
+body { margin: 0; background: var(--page); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; font-size: 16px; font-weight: 600; line-height: 1.6; letter-spacing: -.02em; -webkit-font-smoothing: antialiased; }
+a { color: var(--link-text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 2px; }
+img { display: block; }
+
+.page { width: 100%; overflow-x: clip; overflow-y: visible; }
+.topbar { width: calc(100% - 40px); margin: 32px auto 12px; display: flex; justify-content: flex-end; }
+.languageSwitch { display: flex; align-items: center; gap: 3.625px; color: var(--text); font-size: 16px; }
+.languageSwitch a, .languageSwitch a:hover { color: var(--muted); text-decoration: none; }
+.languageSwitch a[aria-current="page"] { color: var(--text); }
+.introSection { width: 100%; margin: 0 auto 84px; }
+.profileCard { --pointer-x: 50%; --pointer-y: 50%; --background-x: 50%; --background-y: 50%; --pointer-from-center: 0; --card-opacity: 0; --rotate-x: 0deg; --rotate-y: 0deg; --spot-radius: 50cqw; --card-rest-rotation: -3deg; --card-entry-scale: 1; --card-hover-scale: 1; position: relative; container-type: inline-size; width: clamp(300px, 60vw, 410px); aspect-ratio: 2016 / 2808; margin: 32px auto 36px; overflow: hidden; border-radius: 20px; background: var(--card-background); transform: perspective(1000px) rotateY(var(--rotate-x)) rotateX(var(--rotate-y)) rotate(var(--card-rest-rotation)) scale(var(--card-entry-scale)); scale: calc(var(--card-scroll-scale, 1) * var(--card-hover-scale)); transform-style: preserve-3d; box-shadow: 0 12px 18px rgb(0 0 0 / 23%); }
+.profileArtwork { object-fit: cover; object-position: center; border-radius: inherit; }
+.profileCopy { position: absolute; z-index: 2; inset: 0; color: var(--card-ink); font-family: "Merriweather", serif; font-weight: 400; letter-spacing: 0; pointer-events: none; }
+.profileFoil, .profileGlare { position: absolute; inset: 0; border-radius: inherit; -webkit-clip-path: inset(0 round 20px); clip-path: inset(0 round 20px); pointer-events: none; }
+.profileFoil { z-index: 3; opacity: calc(var(--card-opacity) * 1); -webkit-mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); -webkit-mask-size: 100% 100%, 100% 100%; -webkit-mask-repeat: no-repeat, no-repeat; -webkit-mask-composite: source-in; mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); mask-mode: alpha, luminance; mask-size: 100% 100%, 100% 100%; mask-repeat: no-repeat, no-repeat; mask-composite: intersect; background-image: repeating-linear-gradient(-22deg, hsla(283, 49%, 60%, .75) 5%, hsla(2, 74%, 59%, .75) 10%, hsla(53, 67%, 53%, .75) 15%, hsla(93, 56%, 52%, .75) 20%, hsla(176, 38%, 50%, .75) 25%, hsla(228, 100%, 77%, .75) 30%, hsla(283, 49%, 61%, .75) 35%); background-size: 300% 400%; background-position: var(--background-x) var(--background-y); filter: brightness(calc((var(--pointer-from-center) * .3) + .5)) contrast(2.3) saturate(1); mix-blend-mode: color-dodge; }
+.profileGlare { z-index: 4; opacity: calc(var(--card-opacity) * .36); background-image: radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y), rgb(255 255 255 / .75) 0%, rgb(255 255 255 / .36) 36%, rgb(255 255 255 / .16) 74%, rgb(255 255 255 / .08) 100%); mix-blend-mode: screen; }
+.profileCopy h1 { font-family: "Cinzel", serif; font-weight: 800; position: absolute; top: calc(6.2% - 2px); left: 8%; width: 62%; margin: 0; font-size: 19px; line-height: 1.2; letter-spacing: -.6px; }
+.profileCopy .role { position: absolute; top: calc(57.5% - 4px); left: 8%; width: 84%; margin: 0; font-size: 20px; font-weight: 800; line-height: 1.2; }
+.bio { position: absolute; top: 65%; left: 9.8%; width: 75%; display: flex; flex-direction: column; gap: 16px; overflow: visible; font-size: 13px; line-height: 1.2; }
+.bio p { margin: 0; letter-spacing: -.4px; text-align: justify; }
+main.page[lang="ru"] .bio p:first-child { letter-spacing: -.5px; }
+main.page[lang="ru"] .bio p:nth-child(2) { letter-spacing: -.3px; }
+.bio p:nth-child(2) { font-style: italic; }
+.contacts { display: flex; align-items: center; justify-content: center; gap: 3.6px; color: var(--text); font-size: 16px; line-height: 1.6; }
+.contactItem { display: inline-flex; align-items: center; gap: 3.6px; white-space: nowrap; }
+.contactItem a { transition: color .18s ease; }
+.contactItem a:hover { color: var(--muted); }
+.separator, .languageSwitch > span { color: var(--line); }
+.sectionHeading { margin-bottom: 12px; }
+.sectionHeading p { margin: 0 0 4px; color: var(--muted); font-size: 14px; font-weight: 500; }
+.sectionHeading h2, .comicsSection > h2 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.03em; }
+.caseSection, .experience, .comicsSection { width: min(var(--column), calc(100% - 40px)); margin: 0 auto; }
+.caseSection { margin-bottom: 115px; }
+.caseIntro { margin: 0 0 64px; width: 95%; color: var(--muted); }
+.achievement { margin: 0 0 48px; }
+.achievement > p, .experienceEntry > p { max-width: 800px; margin: 0 0 20px; color: var(--muted); }
+.achievement > p { width: 95%; }
+.achievement:has(+ .conceptGallery) > p { width: 100%; }
+.textAccent { color: var(--text); }
+.achievement strong { color: var(--text); font-weight: 600; }
+.gallery { display: flex; align-items: flex-end; width: 100vw; margin-left: calc((min(var(--column), calc(100vw - 40px)) - 100vw) / 2); gap: 0; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none; padding: 0 80px; -webkit-overflow-scrolling: touch; }
+.gallery::-webkit-scrollbar { display: none; }
+.gallery img { height: auto; flex: 0 0 auto; object-fit: cover;  }
+.phoneGallery img { width: 357px; height: auto; border-radius: 28px; }
+.productBand { position: relative; width: 100vw; margin: 55px calc((min(var(--column), calc(100vw - 40px)) - 100vw) / 2) 64px; padding: 36px 0; background: var(--product-background); }
+.productGallery { width: 100%; margin-left: 0; padding: 0 max(20px, calc((100vw - var(--column)) / 2 - 120px)); gap: 0; }
+.productGallery img { width: 222px; border-radius: 12px; }
+.conceptGallery { width: 100vw; margin-left: calc((min(var(--column), calc(100vw - 40px)) - 100vw) / 2); display: flex; align-items: flex-end; gap: 16px; overflow-x: auto; padding: 0 80px; scrollbar-width: none; }
+.conceptGallery::-webkit-scrollbar { display: none; }
+.conceptGallery figure { flex: 0 0 auto; width: 350px; margin: 0;  }
+.conceptGallery img { width: 100%; height: auto; border-radius: 28px; }
+.conceptGallery figcaption { text-align: center; min-height: 44.8px; margin: 16px 0 0; font-weight: 500; color: var(--muted); font-size: 14px; }
+.experience { display: grid; gap: 64px; margin-bottom: 116px; }
+.experienceEntry > p { margin-bottom: 0; }
+.experienceEntry > p a { color: var(--link-text); text-decoration: underline; text-decoration-color: var(--line); }
+.singleScreen { width: 100%; margin: 0 auto 48px; display: flex; justify-content: center; overflow: clip; }
+.singleScreen img { width: min(551px, 100%); height: auto; flex: none; border-radius: 28px; }
+.singleScreenLoyalty {
+  height: 654px;
+  align-items: flex-start;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, rgb(0 0 0 / .82) 82%, rgb(0 0 0 / .42) 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, rgb(0 0 0 / .82) 82%, rgb(0 0 0 / .42) 92%, transparent 100%);
+}
+.singleScreenCalendar {
+  height: 834px;
+  align-items: flex-end;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / .42) 3%, rgb(0 0 0 / .82) 6%, #000 10%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / .42) 3%, rgb(0 0 0 / .82) 6%, #000 10%);
+}
+.comicsSection { margin-bottom: 92px; }
+.comicsSection > h2 { margin-bottom: 26px; }
+.comicsGrid { display: flex; gap: 32px; padding: 0 12px; }
+.comicColumn { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 32px; }
+.mobileComics { display: none; }
+.comic { position: relative; min-width: 0; margin: 0; padding: 0; }
+.comic figcaption { margin-top: 16px; color: var(--text); font-size: 16px; }
+.award { display: flex; align-items: center; gap: 4px; margin: 0 0 12px; font-family: "Inter", sans-serif; color: var(--orange); font-size: 14px; font-weight: 600; line-height: 22.4px; }
+.award[data-viewport-reveal="waiting"] { opacity: 0; transform: translateY(150px); }
+.award[data-viewport-reveal] { transition: opacity 680ms cubic-bezier(.22, 1, .36, 1), transform 680ms cubic-bezier(.22, 1, .36, 1); }
+.award[data-viewport-reveal="visible"] { opacity: 1; transform: translateY(0); }
+.footer { width: min(var(--column), calc(100% - 40px)); margin: 0 auto; border-top: 1px solid var(--line); padding: 24px 0; display: flex; align-items: flex-start; gap: 10px; }
+.footer > p { flex: 1; min-width: 0; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.footer .contacts { flex: 0 0 auto; justify-content: flex-end; }
+
+@media (min-width: 810px) {
+  :root { --column: 800px; }
+}
+
+@media (max-width: 809px) {
+  .singleScreenLoyalty { height: min(654px, calc(126vw - 90px)); }
+  .singleScreenCalendar { height: 617px; }
+  body { font-size: 16px; }
+  .topbar { margin-top: 32px; margin-bottom: 0; }
+  .introSection { margin-bottom: 84px; }
+  .profileCard { width: min(335px, calc(100vw - 55px)); margin-top: 32px; margin-bottom: 37px; }
+  .profileCopy h1 { font-family: "Cinzel", serif; font-weight: 800; top: calc(4.8% + 6px); left: 8%; font-size: 16px; }
+  .profileCopy .role { top: calc(57.5% - 2px); font-size: 15px; }
+  .bio { top: 64%; left: 10%; width: 80%; gap: 16px; font-size: 11px; }
+  .contacts { gap: 3.6px; font-size: 16px; }
+  .contactItem { gap: 3.6px; }
+  .sectionHeading h2, .comicsSection > h2 { font-size: 24px; }
+  .caseIntro { margin-bottom: 64px; }
+  .achievement { margin-bottom: 48px; }
+  .achievement > p, .experienceEntry > p { margin-bottom: 20px; }
+  .gallery { width: 100vw; margin-left: -20px; padding-left: 0; padding-right: 0; }
+  .phoneGallery img { height: auto; border-radius: 23px; }
+  .productBand { margin: 42px -20px 46px; padding: 25px 0; }
+  .productGallery { margin-left: 0; padding: 0 20px; }
+  .productGallery img { width: min(222px, 56vw); }
+  .conceptGallery { width: 100vw; margin-left: -20px; padding-left: 0; padding-right: 0; }
+
+  .experience { gap: 64px; margin-bottom: 82px; }
+  .desktopComics { display: none; }
+  .mobileComics { display: flex; gap: 16px; }
+  .comic figcaption { font-size: 16px; }
+
+  .comicsSection { margin-bottom: 68px; }
+  .footer .contacts { flex: 0 0 auto; justify-content: flex-end; }
+}
+
+@media (min-width: 630px) and (max-width: 809px) {
+  .gallery, .conceptGallery { margin-left: calc((var(--column) - 100vw) / 2); }
+  .productBand { margin-left: calc((var(--column) - 100vw) / 2); margin-right: calc((var(--column) - 100vw) / 2); }
+  .productGallery { margin-left: 0; }
+}
+
+@supports (width: 1cqw) {
+  .page { container-type: inline-size; }
+  .gallery, .conceptGallery, .productBand { width: 100cqw; }
+  .gallery, .conceptGallery { margin-left: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); }
+  .productBand { margin-left: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); margin-right: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); }
+  .productGallery { margin-left: 0; padding-left: max(20px, calc((100cqw - var(--column)) / 2 - 120px)); padding-right: max(20px, calc((100cqw - var(--column)) / 2 - 120px)); }
+
+  @media (max-width: 809px) {
+    .gallery, .conceptGallery { margin-left: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); }
+    .productBand { margin-left: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); margin-right: calc((min(var(--column), calc(100cqw - 40px)) - 100cqw) / 2); }
+    .productGallery { margin-left: 0; padding: 0 20px; }
+  }
+}
+
+@media (max-width: 390px) {
+  .contacts, .footer .contacts { gap: 3.6px; font-size: 16px; }
+  .contactItem { gap: 3.6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* Device sizes measured from the published Framer galleries. */
+.phoneGallery img:nth-child(1) { width: 349px; }
+.phoneGallery img:nth-child(2) { width: 380px; }
+.phoneGallery img:nth-child(3) { width: 357px; }
+.phoneGallery img:nth-child(4) { width: 379px; }
+.phoneGallery img:nth-child(5) { width: 379px; }
+.phoneGallery img:nth-child(6) { width: 350px; }
+.phoneGallery img:nth-child(7) { width: 357px; }
+.phoneGallery img:nth-child(8) { width: 357px; }
+.conceptGallery figure:nth-child(1) { width: 347px; }
+.conceptGallery figure:nth-child(2) { width: 325px; }
+.conceptGallery figure:nth-child(3) { width: 318px; }
+.conceptGallery figure:nth-child(4) { width: 357px; }
+.conceptGallery figure:nth-child(5) { width: 325px; }
+
+.toolDemo { border-radius: 24px; position: relative; width: 100%; aspect-ratio: 800 / 546.14; margin: -28px 0 48px; overflow: clip; }
+.toolDemo video { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 700px) {
+  .toolDemo { aspect-ratio: auto; height: 404px; }
+  .toolDemo video { transform: scale(1.5); }
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+  .profileCard { transition: --card-rest-rotation .52s cubic-bezier(.16,1,.3,1), scale .52s cubic-bezier(.16,1,.3,1), box-shadow .52s cubic-bezier(.16,1,.3,1); }
+  .profileArtwork { transition: filter .3s ease; }
+  .profileCard:hover, .profileCard[data-active="true"] { --card-rest-rotation: 0deg; --card-hover-scale: 1.1; box-shadow: none; }
+  .profileCard:hover .profileArtwork { filter: brightness(1.16); }
+}
+
+@media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
+  .profileCard:hover, .profileCard[data-active="true"] { --card-rest-rotation: -3deg; --card-hover-scale: 1; transform: perspective(1000px) rotateY(0deg) rotateX(0deg) rotate(-3deg) scale(1); scale: var(--card-scroll-scale, 1); }
+  .profileFoil { opacity: 0; }
+  .profileGlare { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profileCard, .profileArtwork { transition: none; }
+  .profileCard:hover { --card-rest-rotation: -3deg; --card-hover-scale: 1; transform: perspective(1000px) rotateY(0deg) rotateX(0deg) rotate(-3deg) scale(1); scale: var(--card-scroll-scale, 1); }
+}
+
+/* Entry curves sampled from the published Framer animation. Individual
+   transform properties keep this movement independent of the hover transform. */
+@media (prefers-reduced-motion: no-preference) {
+  .profileCard {
+    animation: profileEntrance 640ms 120ms both;
+    animation-timing-function: linear(0, .034 5%, .286 13%, .506 19%, .706 27%, .918 44%, .977 60%, .994 75%, .9985 90%, 1);
+  }
+  .introSection > .contacts {
+    animation: profileContactsEntrance 480ms 500ms both;
+    animation-timing-function: linear(0, .513 21%, .982 42%, 1.015 58%, 1.012 63%, 1.0014 83%, 1);
+  }
+}
+
+@keyframes profileEntrance {
+  from { translate: -80px -780px; rotate: 40deg; --card-entry-scale: 1.1; }
+  to { translate: 0 0; rotate: 0deg; --card-entry-scale: 1; }
+}
+
+@keyframes profileContactsEntrance {
+  from { transform: translateY(-150px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.profileCard { isolation: isolate; }
+.profileCard::before { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit; background-image: url("/img/card-noise.png"); background-repeat: repeat; background-size: 128px 128px; image-rendering: pixelated; opacity: .1; mix-blend-mode: overlay; }
+.profileCard::after { content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none; border-radius: inherit; border-top: 1px solid rgb(255 255 255 / 30%); border-left: 1px solid rgb(255 255 255 / 30%); }
+
+html[data-skip-entrance="true"] .profileCard,
+html[data-skip-entrance="true"] .introSection > .contacts { animation: none; }
+
+.comic figcaption::after { content: ""; display: block; height: 22.4px; }
+
+.award::before { content: ""; width: 16px; height: 16px; flex: 0 0 16px; background-color: currentColor; mask: url("/img/award-trophy.svg") center / contain no-repeat; }

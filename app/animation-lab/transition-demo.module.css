@@ -1,0 +1,180 @@
+.lab {
+  min-height: 100vh;
+  padding: 0 28px;
+  color: var(--text);
+}
+
+.topbar {
+  width: min(1040px, 100%);
+  min-height: 82px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backLink, .prototypeLabel {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+
+.prototypeLabel { font-size: 10px; letter-spacing: .13em; }
+
+.demo {
+  width: min(760px, 100%);
+  margin: clamp(56px, 11vh, 120px) auto 0;
+}
+
+.demoHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.demoTitle {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 550;
+  line-height: 1.08;
+  letter-spacing: -.055em;
+}
+
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+}
+
+.switchOption { display: inline-flex; align-items: center; gap: 8px; }
+.switchDivider { color: var(--muted); font-size: 14px; }
+.switcher button {
+  border: 0;
+  padding: 0;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.switcher button:hover, .switcher .activeLanguage { color: var(--text); }
+.switcher button:focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; border-radius: 2px; }
+
+.sample {
+  --copy-transition-gradient: linear-gradient(100deg, #e8a1bd 0%, #9a8ae9 36%, #78b9d5 68%, #efb88f 100%);
+  overflow: hidden;
+  padding: clamp(24px, 5vw, 44px);
+  border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 82% 0%, color-mix(in srgb, var(--purple) 11%, transparent), transparent 42%),
+    var(--surface);
+  box-shadow: 0 18px 56px rgb(0 0 0 / 6%);
+}
+
+.sampleMeta, .sampleFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.sampleMeta { margin-bottom: clamp(28px, 6vw, 52px); }
+.liveDot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 45%, transparent); }
+
+.copyBlock { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.line { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; min-width: 0; isolation: isolate; }
+.wrappedText { position: relative; grid-area: 1 / 1; display: block; width: 100%; min-width: 0; }
+.measureText { position: absolute; inset: 0 auto auto 0; width: 100%; visibility: hidden; pointer-events: none; white-space: normal; }
+.visualRows { display: block; }
+.visualRow { display: block; min-width: 0; white-space: nowrap; }
+.headlineLine { --line-ink: var(--text); margin-bottom: 6px; color: var(--text); font-size: clamp(29px, 5.4vw, 48px); font-weight: 550; line-height: 1.1; letter-spacing: -.055em; }
+.bodyLine { --line-ink: var(--muted); color: var(--muted); font-size: clamp(15px, 2vw, 17px); font-weight: 450; line-height: 1.65; letter-spacing: -.018em; }
+
+.animating .oldLine .visualRow {
+  animation: oldCopyOut 220ms cubic-bezier(.22,.7,.25,1) both;
+  animation-delay: var(--row-delay);
+}
+.animating .newLine .visualRow {
+  opacity: 0;
+  transform: translateY(4px);
+  animation: newCopyIn 340ms ease-out both;
+  animation-delay: calc(var(--row-delay) + 95ms);
+}
+.tintedLine { z-index: 1; }
+.tintedLine .visualRow {
+  opacity: 0;
+  background-image: var(--copy-transition-gradient);
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: tintIn 340ms ease-out both, tintSettle 520ms ease-out both;
+  animation-delay: calc(var(--row-delay) + 95ms), calc(var(--row-delay) + 435ms);
+}
+
+.sampleFooter { margin-top: clamp(34px, 6vw, 54px); padding-top: 18px; border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent); letter-spacing: .025em; }
+.motionKey { display: inline-flex; align-items: center; gap: 7px; }
+.motionKey i { width: 18px; height: 1px; background: linear-gradient(90deg, #8b7cf1, #7ce1d6); }
+.caption { margin: 18px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
+.footer { width: min(760px, 100%); margin: 76px auto 0; padding: 18px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; text-align: center; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-color-scheme: dark) {
+  .sample {
+    --copy-transition-gradient: linear-gradient(100deg, #f2a0bd 0%, #b3a4f2 36%, #87d7e6 68%, #f4b28d 100%);
+    box-shadow: 0 18px 56px rgb(0 0 0 / 24%);
+  }
+}
+
+@keyframes oldCopyOut { to { opacity: 0; transform: translateY(-3px); } }
+@keyframes newCopyIn {
+  0% { opacity: 0; transform: translateY(4px); }
+  68% { opacity: 1; transform: translateY(-1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes tintIn {
+  0% { opacity: 0; transform: translateY(4px); }
+  68% { opacity: 1; transform: translateY(-1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes tintSettle { to { opacity: 0; } }
+
+@media (max-width: 600px) {
+  .lab { padding: 0 18px; }
+  .topbar { min-height: 68px; }
+  .demo { margin-top: 8vh; }
+  .demoHeader { align-items: flex-start; }
+  .switcher { margin-top: 2px; }
+  .sample { border-radius: 18px; }
+  .copyBlock { gap: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animating .oldLine { display: none; }
+  .animating .newLine .visualRow { opacity: 1; transform: none; animation: none; }
+  .animating .tintedLine { display: none; }
+  .bodyLine .newLine { color: var(--muted); }
+}
