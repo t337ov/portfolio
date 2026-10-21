@@ -6,6 +6,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Roman Titov — Senior Product Designer",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
+      { url: "/favicon_dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
