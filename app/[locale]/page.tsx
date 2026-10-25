@@ -31,7 +31,7 @@ function Gallery({ locale, start, end, label }: { locale: Locale; start: number;
     {Array.from({ length: end - start }, (_, offset) => {
       const number = start + offset + 1;
       const n = String(number).padStart(2, "0");
-      return <Image key={n} src={`/img/compressed/iphone${n}_${assetLocale}.webp`} alt={phoneAlt[locale][number - 1]} width={phoneDimensions[assetLocale][number - 1][0]} height={phoneDimensions[assetLocale][number - 1][1]} sizes="(max-width: 600px) 72vw, 310px" />;
+      return <Image key={n} src={`/img/compressed/iphone${n}_${assetLocale}.webp${n === "06" ? "?v=20261025" : ""}`} alt={phoneAlt[locale][number - 1]} width={phoneDimensions[assetLocale][number - 1][0]} height={phoneDimensions[assetLocale][number - 1][1]} sizes="(max-width: 600px) 72vw, 310px" />;
     })}
   </div>;
 }
@@ -40,7 +40,7 @@ function SingleScreen({ locale, number }: { locale: Locale; number: number }) {
   const assetLocale = locale === "en" ? "eng" : "ru";
   const n = String(number).padStart(2, "0");
   return <figure className={"singleScreen " + (number === 9 ? "singleScreenLoyalty" : "singleScreenCalendar")}>
-    <Image src={`/img/compressed/iphone${n}_${assetLocale}.webp`} alt={phoneAlt[locale][number - 1]} width={phoneDimensions[assetLocale][number - 1][0]} height={phoneDimensions[assetLocale][number - 1][1]} sizes="(max-width: 809px) calc(100vw - 40px), 551px" />
+    <Image src={`/img/compressed/iphone${n}_${assetLocale}.webp${n === "06" ? "?v=20261025" : ""}`} alt={phoneAlt[locale][number - 1]} width={phoneDimensions[assetLocale][number - 1][0]} height={phoneDimensions[assetLocale][number - 1][1]} sizes="(max-width: 809px) calc(100vw - 40px), 551px" />
   </figure>;
 }
 
@@ -49,7 +49,7 @@ function SnippetGallery({ locale }: { locale: Locale }) {
   return <div className="productBand"><div className="gallery productGallery" aria-label={locale === "ru" ? "Карточки товаров" : "Product card examples"}>
     {Array.from({ length: 14 }, (_, index) => {
       const n = String(index + 1).padStart(2, "0");
-      return <Image key={n} src={`/img/compressed/${n}_snippet_${assetLocale}.webp`} alt={snippetAlt[locale][index]} width={228} height={324} sizes="(max-width: 600px) 55vw, 228px" />;
+      return <Image key={n} src={`/img/compressed/${n}_snippet_${assetLocale}.webp${n === "12" ? "?v=20261025" : ""}`} alt={snippetAlt[locale][index]} width={228} height={324} sizes="(max-width: 600px) 55vw, 228px" />;
     })}
   </div></div>;
 }
