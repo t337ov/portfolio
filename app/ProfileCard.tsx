@@ -126,7 +126,7 @@ export function ProfileCard({ name, role, intro, locale }: ProfileCardProps) {
     onBlur={resetPointer}
   >
     <CardScrollEffect />
-    <Image className="profileArtwork" src="/img/compressed/Card%20notext.webp" alt={locale === "ru" ? "Коллекционная карточка с портретом дизайнера" : "Collectible card portrait of the designer"} fill priority sizes="(max-width: 700px) 64.5vw, 440px" />
+    <Image className="profileArtwork" src="/img/compressed/Card%20notext.webp" alt={locale === "ru" ? "Коллекционная карточка с портретом дизайнера" : "Collectible card portrait of the designer"} fill priority sizes="(max-width: 700px) 64.5vw, 440px" draggable={false} />
     <div className="profileCopy">
       <h1 id="profile-name">{name}</h1>
       <p className="role">{role}</p>

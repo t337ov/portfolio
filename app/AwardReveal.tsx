@@ -50,5 +50,5 @@ export function AwardReveal({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  return <span className="award" ref={ref}>{children}</span>;
+  return <span className="award" ref={ref}><span className="awardLabel">{children}</span></span>;
 }

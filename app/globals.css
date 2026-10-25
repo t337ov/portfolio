@@ -142,6 +142,11 @@ img { display: block; }
 .introSection { width: 100%; margin: 0 auto 84px; }
 .profileCard { --pointer-x: 50%; --pointer-y: 50%; --background-x: 50%; --background-y: 50%; --pointer-from-center: 0; --card-opacity: 0; --rotate-x: 0deg; --rotate-y: 0deg; --spot-radius: 50cqw; --card-rest-rotation: -3deg; --card-entry-scale: 1; --card-hover-scale: 1; position: relative; container-type: inline-size; width: clamp(300px, 60vw, 410px); aspect-ratio: 2016 / 2808; margin: 32px auto 36px; overflow: hidden; border-radius: 20px; background: var(--card-background); transform: perspective(1000px) rotateY(var(--rotate-x)) rotateX(var(--rotate-y)) rotate(var(--card-rest-rotation)) scale(var(--card-entry-scale)); scale: calc(var(--card-scroll-scale, 1) * var(--card-hover-scale)); transform-style: preserve-3d; box-shadow: 0 12px 18px rgb(0 0 0 / 23%); }
 .profileArtwork { object-fit: cover; object-position: center; border-radius: inherit; }
+
+@media (hover: none) and (pointer: coarse) {
+  .profileCard, .profileCard * { -webkit-touch-callout: none; }
+  .profileArtwork { -webkit-user-drag: none; -webkit-user-select: none; user-select: none; }
+}
 .profileCopy { position: absolute; z-index: 2; inset: 0; color: var(--card-ink); font-family: "Merriweather", serif; font-weight: 400; letter-spacing: 0; pointer-events: none; }
 .profileFoil, .profileGlare { position: absolute; inset: 0; border-radius: inherit; -webkit-clip-path: inset(0 round 20px); clip-path: inset(0 round 20px); pointer-events: none; }
 .profileFoil { z-index: 3; opacity: calc(var(--card-opacity) * 1); -webkit-mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); -webkit-mask-size: 100% 100%, 100% 100%; -webkit-mask-repeat: no-repeat, no-repeat; -webkit-mask-composite: source-in; mask-image: radial-gradient(circle var(--spot-radius) at var(--pointer-x) var(--pointer-y), #000 0 34%, rgb(0 0 0 / .78) 55%, transparent 100%), url("/img/compressed/mask.webp"); mask-mode: alpha, luminance; mask-size: 100% 100%, 100% 100%; mask-repeat: no-repeat, no-repeat; mask-composite: intersect; background-image: repeating-linear-gradient(-22deg, hsla(283, 49%, 60%, .75) 5%, hsla(2, 74%, 59%, .75) 10%, hsla(53, 67%, 53%, .75) 15%, hsla(93, 56%, 52%, .75) 20%, hsla(176, 38%, 50%, .75) 25%, hsla(228, 100%, 77%, .75) 30%, hsla(283, 49%, 61%, .75) 35%); background-size: 300% 400%; background-position: var(--background-x) var(--background-y); filter: brightness(calc((var(--pointer-from-center) * .3) + .5)) contrast(2.3) saturate(1); mix-blend-mode: color-dodge; }
@@ -163,7 +168,7 @@ main.page[lang="ru"] .bio p:nth-child(2) { letter-spacing: -.3px; }
 .sectionHeading h2, .comicsSection > h2 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -.03em; }
 .sectionHeading h2 .experienceDate { color: var(--muted); font-size: 14px; font-weight: 500; letter-spacing: normal; }
 .caseSection, .experience, .comicsSection { width: min(var(--column), calc(100% - 40px)); margin: 0 auto; }
-.caseSection { margin-bottom: 115px; }
+.caseSection { margin-bottom: 64px; }
 .caseIntro { margin: 0 0 64px; width: 95%; color: var(--muted); }
 .achievement { margin: 0 0 48px; }
 .achievement > p, .experienceEntry > p { max-width: 800px; margin: 0 0 20px; color: var(--muted); }
@@ -182,8 +187,8 @@ main.page[lang="ru"] .bio p:nth-child(2) { letter-spacing: -.3px; }
 .conceptGallery::-webkit-scrollbar { display: none; }
 .conceptGallery figure { flex: 0 0 auto; width: 350px; margin: 0;  }
 .conceptGallery img { width: 100%; height: auto; border-radius: 28px; }
-.conceptGallery figcaption { text-align: center; min-height: 44.8px; margin: 16px 0 0; font-weight: 500; color: var(--muted); font-size: 14px; }
-.experience { display: grid; gap: 64px; margin-bottom: 116px; }
+.conceptGallery figcaption { text-align: center; min-height: 44.8px; margin: 4px 0 0; font-weight: 500; color: var(--muted); font-size: 14px; }
+.experience { display: grid; gap: 48px; margin-bottom: 48px; }
 .experienceEntry > p { margin-bottom: 0; }
 .experienceEntry > p a { color: var(--link-text); text-decoration: underline; text-decoration-color: var(--line); }
 .singleScreen { width: 100%; margin: 0 auto 48px; display: flex; justify-content: center; overflow: clip; }
@@ -242,9 +247,17 @@ main.page[lang="ru"] .bio p:nth-child(2) { letter-spacing: -.3px; }
   .productGallery img { width: min(222px, 56vw); }
   .conceptGallery { width: 100vw; margin-left: -20px; padding-left: 0; padding-right: 0; }
 
-  .experience { gap: 64px; margin-bottom: 82px; }
+  .experience { gap: 48px; margin-bottom: 48px; }
   .desktopComics { display: none; }
   .mobileComics { display: flex; gap: 16px; }
+  .mobileComics .awardLabel {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+  }
   .comic figcaption { font-size: 16px; }
 
   .comicsSection { margin-bottom: 68px; }
